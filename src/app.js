@@ -1,9 +1,10 @@
 const express = require("express");
 const { adminAuth } = require("../middlewares/auth");
 const { connectDB } = require("../config/database");
+const { user } = require("../routes/user");
 
 const app = express();
-
+app.use(express.json());
 const PORT = 3000;
 connectDB()
   .then(() => {
@@ -16,8 +17,4 @@ connectDB()
     console.log(err);
   });
 
-app.get("/user/:userId", adminAuth, (req, res) => {
-  const query = req.params.userId;
-  console.log(query);
-  res.send("I am get Route");
-});
+app.use("/", user);
