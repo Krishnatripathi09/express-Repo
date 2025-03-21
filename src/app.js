@@ -1,13 +1,15 @@
 const express = require("express");
 const { adminAuth } = require("../middlewares/auth");
 const { connectDB } = require("../config/database");
-const { router } = require("../routes/auth");
+const { authRouter } = require("../routes/auth");
 const cookieparser = require("cookie-parser");
-
+const { profileRouter } = require("../routes/profile");
 const app = express();
+
 app.use(express.json());
 app.use(cookieparser());
-app.use("/", router);
+app.use("/", authRouter);
+app.use("/", profileRouter);
 
 const PORT = 3000;
 connectDB()

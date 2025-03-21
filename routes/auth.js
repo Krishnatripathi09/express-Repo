@@ -5,11 +5,11 @@ const bcrypt = require("bcrypt");
 const cookieparser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const { userAuth } = require("../middlewares/auth");
-const router = express.Router();
+const authRouter = express.Router();
 const app = express();
 app.use(cookieparser());
 
-router.post("/signUp", async (req, res) => {
+authRouter.post("/signUp", async (req, res) => {
   try {
     validateSignUpData(req);
     const { firstName, lastName, email, password } = req.body;
@@ -31,7 +31,7 @@ router.post("/signUp", async (req, res) => {
   }
 });
 
-router.post("/signin", async (req, res) => {
+authRouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email: email });
@@ -54,12 +54,6 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/user", userAuth, async (req, res) => {
-  const user = req.user;
-
-  res.status(200).send(user);
-});
-
 module.exports = {
-  router,
+  authRouter,
 };
